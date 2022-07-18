@@ -1,6 +1,6 @@
 from selene import have
 from selene.support.shared import browser
-import os
+from demoqa_tests.controls.resourse import resourse
 
 
 def open_form():
@@ -10,19 +10,17 @@ def open_form():
 def test_registration_form():
     open_form()
 
-
     browser.element("#firstName").type("Alyona")
     browser.element("#lastName").type("Tch")
     browser.element("#userEmail").type("verypyc@gmail.com")
-    browser.element('[for="gender-radio-2"]').click()
+    gender = '[for="gender-radio-2"]'
+    browser.element(gender).click()
     browser.element("#userNumber").type("9998889988")
-    browser.element("#dateOfBirthInput").click()
-    browser.element('.react-datepicker__year-select [value="1992"]').click()
-    browser.element('.react-datepicker__month-select [value="6"]').click()
-    browser.element(".react-datepicker__day--027").click()
+    Date_Of_Birth = DatePicker(browser.element("#dateOfBirthInput"))
+    Date_Of_Birth.explicit_input(option="27 Jul 1992")
     browser.element("#subjectsInput").type("math").press_tab()
     browser.element('[for="hobbies-checkbox-2"]').click()
-    browser.element("#uploadPicture").send_keys(os.path.abspath('../resources/pepe.png'))
+    browser.element("#uploadPicture").send_keys(resourse('pepe.png'))
     browser.element("#currentAddress").type("Moscow")
     browser.element("#state").element("input").type("NCR").press_enter()
     browser.element("#city").element("input").type("Gurgaon").press_enter()
