@@ -6,6 +6,7 @@ from enum import Enum
 from demoqa_tests.controls.tags_input import TagsInput
 from demoqa_tests.controls.dropdown import Dropdown
 
+
 class Months(Enum):
     January = 0
     February = 1
