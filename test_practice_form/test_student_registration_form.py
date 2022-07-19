@@ -1,6 +1,23 @@
 from selene import have
 from selene.support.shared import browser
 from demoqa_tests.controls.resourse import resourse
+from demoqa_tests.controls.datepicker import DatePicker
+from enum import Enum
+
+
+class Months(Enum):
+    January = 0
+    February = 1
+    March = 2
+    April = 3
+    May = 4
+    June = 5
+    July = 6
+    August = 7
+    September = 8
+    October = 9
+    November = 10
+    December = 11
 
 
 def open_form():
@@ -13,11 +30,17 @@ def test_registration_form():
     browser.element("#firstName").type("Alyona")
     browser.element("#lastName").type("Tch")
     browser.element("#userEmail").type("verypyc@gmail.com")
+
     gender = '[for="gender-radio-2"]'
     browser.element(gender).click()
+
     browser.element("#userNumber").type("9998889988")
-    Date_Of_Birth = DatePicker(browser.element("#dateOfBirthInput"))
-    Date_Of_Birth.explicit_input(option="27 Jul 1992")
+
+    calendar = '#dateOfBirthInput'
+    browser.element(calendar).click()
+    date_of_birth = DatePicker(browser.element('#dateOfBirth'))
+    date_of_birth.select_year(1992).select_month(Months.July).select_day(27)
+
     browser.element("#subjectsInput").type("math").press_tab()
     browser.element('[for="hobbies-checkbox-2"]').click()
     browser.element("#uploadPicture").send_keys(resourse('pepe.png'))
