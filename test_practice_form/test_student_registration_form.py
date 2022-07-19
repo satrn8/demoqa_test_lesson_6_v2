@@ -3,7 +3,8 @@ from selene.support.shared import browser
 from demoqa_tests.controls.resourse import resourse
 from demoqa_tests.controls.datepicker import DatePicker
 from enum import Enum
-
+from demoqa_tests.controls.tags_input import TagsInput
+from demoqa_tests.controls.dropdown import Dropdown
 
 class Months(Enum):
     January = 0
@@ -41,12 +42,22 @@ def test_registration_form():
     date_of_birth = DatePicker(browser.element('#dateOfBirth'))
     date_of_birth.select_year(1992).select_month(Months.July).select_day(27)
 
-    browser.element("#subjectsInput").type("math").press_tab()
-    browser.element('[for="hobbies-checkbox-2"]').click()
+    subjects = TagsInput(browser.element('#subjectsInput'))
+    subjects.add('Math', autocomplete='Maths')
+    subjects.add('English')
+    # browser.element("#subjectsInput").type("math").press_tab()
+
+    hobby = '[for="hobbies-checkbox-2"]'
+    browser.element(hobby).click()
+
     browser.element("#uploadPicture").send_keys(resourse('pepe.png'))
     browser.element("#currentAddress").type("Moscow")
-    browser.element("#state").element("input").type("NCR").press_enter()
-    browser.element("#city").element("input").type("Gurgaon").press_enter()
+
+    state = Dropdown(browser.element("#state"))
+    state.select(option="NCR")
+    city = Dropdown(browser.element("#city"))
+    city.select(option="Gurgaon")
+
     browser.element("#submit").press_enter()
 
     browser.element('#example-modal-sizes-title-lg').should(have.exact_text('Thanks for submitting the form'))
@@ -55,7 +66,7 @@ def test_registration_form():
     browser.all(".modal-dialog").all("table tr")[3].all("td").should(have.exact_texts("Gender", "Female"))
     browser.all(".modal-dialog").all("table tr")[4].all("td").should(have.exact_texts("Mobile", "9998889988"))
     browser.all(".modal-dialog").all("table tr")[5].all("td").should(have.exact_texts("Date of Birth", "27 July,1992"))
-    browser.all(".modal-dialog").all("table tr")[6].all("td").should(have.exact_texts("Subjects", "Maths"))
+    browser.all(".modal-dialog").all("table tr")[6].all("td").should(have.exact_texts("Subjects", "Maths, English"))
     browser.all(".modal-dialog").all("table tr")[7].all("td").should(have.exact_texts("Hobbies", "Reading"))
     browser.all(".modal-dialog").all("table tr")[8].all("td").should(have.exact_texts("Picture", 'pepe.png'))
     browser.all(".modal-dialog").all("table tr")[9].all("td").should(have.exact_texts("Address", "Moscow"))

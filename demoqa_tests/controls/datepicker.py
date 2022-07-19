@@ -18,10 +18,6 @@ class DatePicker:
         self.element.element(f'[value="{option}"]').click()
         return self
 
-
-
-
-
     def set_date(self, calendar: Element, option: str):
         browser.execute_script()
         browser.element(calendar).set_value(option).click()
