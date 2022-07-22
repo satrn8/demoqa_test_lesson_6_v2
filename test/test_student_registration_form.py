@@ -1,25 +1,25 @@
 from selene import have
 from selene.support.shared import browser
-from demoqa_tests.controls.resourse import resourse
-from demoqa_tests.controls.datepicker import DatePicker
+from demoqa_tests.model.controls.resource import resource
+from demoqa_tests.model.controls.datepicker import DatePicker
 from enum import Enum
-from demoqa_tests.controls.tags_input import TagsInput
-from demoqa_tests.controls.dropdown import Dropdown
+from demoqa_tests.model.controls.tags_input import TagsInput
+from demoqa_tests.model.controls.dropdown import Dropdown
 
 
-# class Months(Enum):
-#     January = 0
-#     February = 1
-#     March = 2
-#     April = 3
-#     May = 4
-#     June = 5
-#     July = 6
-#     August = 7
-#     September = 8
-#     October = 9
-#     November = 10
-#     December = 11
+class Months(Enum):
+    January = 0
+    February = 1
+    March = 2
+    April = 3
+    May = 4
+    June = 5
+    July = 6
+    August = 7
+    September = 8
+    October = 9
+    November = 10
+    December = 11
 
 
 def open_form():
@@ -51,7 +51,7 @@ def test_registration_form():
     hobby = '[for="hobbies-checkbox-2"]'
     browser.element(hobby).click()
 
-    browser.element("#uploadPicture").send_keys(resourse('pepe.png'))
+    browser.element("#uploadPicture").send_keys(resource('pepe.png'))
     browser.element("#currentAddress").type("Moscow")
 
     state = Dropdown(browser.element("#state"))
