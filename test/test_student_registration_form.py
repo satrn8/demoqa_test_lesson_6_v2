@@ -1,10 +1,11 @@
 from selene import have
 from selene.support.shared import browser
-from demoqa_tests.model.controls.resource import resource
-from demoqa_tests.model.controls.datepicker import DatePicker
+from demoqa_tests.controls.resourse import resourse
+from demoqa_tests.controls.datepicker import DatePicker
 from enum import Enum
-from demoqa_tests.model.controls.tags_input import TagsInput
-from demoqa_tests.model.controls.dropdown import Dropdown
+from demoqa_tests.controls.tags_input import TagsInput
+from demoqa_tests.controls.dropdown import Dropdown
+from demoqa_tests.controls.table import Table
 
 
 class Months(Enum):
@@ -20,6 +21,21 @@ class Months(Enum):
     October = 9
     November = 10
     December = 11
+
+
+class Student:
+    first_name = "Alyona"
+    last_name = "Tch"
+    email = "verypyc@gmail.com"
+    gender = "Female"
+    mobile = "9998889988"
+    date_of_birth = "27 July,1992"
+    subjects = "Maths"
+    hobbies = "Reading"
+    picture = "pepe.png"
+    address = "Moscow"
+    state = "NCR"
+    city = "Gurgaon"
 
 
 def open_form():
@@ -46,38 +62,37 @@ def test_registration_form():
     subjects = TagsInput(browser.element('#subjectsInput'))
     subjects.add('Math', autocomplete='Maths')
     subjects.add('English')
-    # browser.element("#subjectsInput").type("math").press_tab()
 
     hobby = '[for="hobbies-checkbox-2"]'
     browser.element(hobby).click()
 
-    browser.element("#uploadPicture").send_keys(resource('pepe.png'))
+    browser.element("#uploadPicture").send_keys(resourse('pepe.png'))
     browser.element("#currentAddress").type("Moscow")
 
     state = Dropdown(browser.element("#state"))
     state.select(option="NCR")
     city = Dropdown(browser.element("#city"))
     city.select(option="Gurgaon")
-
     browser.element("#submit").press_enter()
 
     browser.element('#example-modal-sizes-title-lg').should(have.exact_text('Thanks for submitting the form'))
-    browser.all(".modal-dialog").all("table tr")[1].all("td").should(have.exact_texts("Student Name", "Alyona Tch"))
-    browser.all(".modal-dialog").all("table tr")[2].all("td").should(have.exact_texts("Student Email", "verypyc@gmail.com"))
-    browser.all(".modal-dialog").all("table tr")[3].all("td").should(have.exact_texts("Gender", "Female"))
-    browser.all(".modal-dialog").all("table tr")[4].all("td").should(have.exact_texts("Mobile", "9998889988"))
-    browser.all(".modal-dialog").all("table tr")[5].all("td").should(have.exact_texts("Date of Birth", "27 July,1992"))
-    browser.all(".modal-dialog").all("table tr")[6].all("td").should(have.exact_texts("Subjects", "Maths, English"))
-    browser.all(".modal-dialog").all("table tr")[7].all("td").should(have.exact_texts("Hobbies", "Reading"))
-    browser.all(".modal-dialog").all("table tr")[8].all("td").should(have.exact_texts("Picture", 'pepe.png'))
-    browser.all(".modal-dialog").all("table tr")[9].all("td").should(have.exact_texts("Address", "Moscow"))
-    browser.all(".modal-dialog").all("table tr")[10].all("td").should(have.exact_texts("State and City", "NCR Gurgaon"))
+    result = Table(browser.element('.modal-content .table'))
+    result.cells_of_row(1).should(have.exact_texts("Student Name", "Alyona Tch"))
+    result.cells_of_row(2).should(have.exact_texts("Student Email", "verypyc@gmail.com"))
+    result.cells_of_row(3).should(have.exact_texts("Gender", "Female"))
+    result.cells_of_row(4).should(have.exact_texts("Mobile", "9998889988"))
+    result.cells_of_row(5).should(have.exact_texts("Date of Birth", "27 July,1992"))
+    result.cells_of_row(6).should(have.exact_texts("Subjects", "Maths, English"))
+    result.cells_of_row(7).should(have.exact_texts("Hobbies", "Reading"))
+    result.cells_of_row(8).should(have.exact_texts("Picture", 'pepe.png'))
+    result.cells_of_row(9).should(have.exact_texts("Address", "Moscow"))
+    result.cells_of_row(10).should(have.exact_texts("State and City", "NCR Gurgaon"))
+
     browser.element("#closeLargeModal").press_enter()
 
 
 if __name__ == '__main__':
     test_registration_form()
-
 
 
 
