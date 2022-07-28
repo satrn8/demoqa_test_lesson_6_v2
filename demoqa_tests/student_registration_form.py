@@ -3,6 +3,8 @@ from demoqa_tests.controls.datepicker import DatePicker
 from demoqa_tests.controls.dropdown import Dropdown
 from demoqa_tests.controls.resource import resource
 from demoqa_tests.controls.tags_input import TagsInput
+from selene import command, have
+from selene.support.shared.jquery_style import s
 
 
 class StudentRegistrationForm:
@@ -18,28 +20,29 @@ class StudentRegistrationForm:
         browser.element("#userEmail").type(value)
         return self
 
-    def set_gender(self):
-        female = '[for="gender-radio-2"]'
-        browser.element(female).click()
+    def set_gender(self, value):
+        browser.element('#genterWrapper').all('.custom-radio').element_by(have.exact_text(value)).click()
         return self
 
     def set_number(self, value):
-        browser.element("userNumber").type(value)
+        browser.element("#userNumber").type(value)
         return self
 
-    def set_date_birth(self, param):
-        Date_Of_Birth = DatePicker(browser.element('#dateOfBirth'))
-        Date_Of_Birth.explicit_inpit(option=param)
+    def set_date_birth(self, year: str, month: int, day: 'str'):
+        s('#dateOfBirthInput').click()
+        s('.react-datepicker__year-select').s(f'[value="{year}"]').click()
+        s('.react-datepicker__month-select').s(f'[value="{month}"]').click()
+        s(f'.react-datepicker__day--0{day}').click()
         return self
 
-    def set_subjects(self, subjects: list[str]):
-        for i in subjects:
-            TagsInput(browser.element("#subjectsInput")).add(i)
+    def set_subjects(self, *values):
+        Sports = '[for="hobbies-checkbox-1"]'
+        browser.element(Sports).click()
         return self
 
-    def set_hobbies(self):
-        hobby = '[for="hobbies-checkbox-2"]'
-        browser.element(hobby).click()
+    def set_hobbies(self, *values):
+        for value in values:
+            s('#hobbiesWrapper').all('.custom-checkbox').element_by(have.exact_text(value)).click()
         return self
 
     def set_picture(self, value):
