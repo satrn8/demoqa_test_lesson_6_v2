@@ -1,8 +1,6 @@
 from selene.support.shared import browser
-from demoqa_tests.controls.datepicker import DatePicker
 from demoqa_tests.controls.dropdown import Dropdown
 from demoqa_tests.controls.resource import resource
-from demoqa_tests.controls.tags_input import TagsInput
 from selene import command, have
 from selene.support.shared.jquery_style import s
 
@@ -36,8 +34,8 @@ class StudentRegistrationForm:
         return self
 
     def set_subjects(self, *values):
-        Sports = '[for="hobbies-checkbox-1"]'
-        browser.element(Sports).click()
+        for value in values:
+            s('#subjectsInput').set_value(value).press_enter()
         return self
 
     def set_hobbies(self, *values):
@@ -53,15 +51,15 @@ class StudentRegistrationForm:
         browser.element("#currentAddress").type(value)
         return self
 
-    def set_states(self):
+    def set_states(self, value):
         state = Dropdown(browser.element("#state"))
         state.select(option="NCR")
         return self
 
-    def set_cities(self):
+    def set_cities(self, value):
         city = Dropdown(browser.element("#city"))
         city.select(option="Gurgaon")
         return self
 
     def set_submit(self):
-        browser.element("#submit").click()
+        s('#submit').perform(command.js.click)
