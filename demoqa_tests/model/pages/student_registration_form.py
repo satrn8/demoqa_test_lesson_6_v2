@@ -6,53 +6,59 @@ from demoqa_tests.model.controls.tags_input import TagsInput
 
 
 class StudentRegistrationForm:
-    def first_name(self, value):
+    def set_first_name(self, value):
         browser.element("#firstName").type(value)
         return self
 
-    def last_name(self, value):
+    def sey_last_name(self, value):
         browser.element("#lastName").type(value)
         return self
 
-    def email(self, value):
+    def set_email(self, value):
         browser.element("#userEmail").type(value)
         return self
 
-    def gender(self, value):
+    def set_gender(self, value):
         female = '[for="gender-radio-2"]'
         browser.element(female).click()
+        return self
 
-    def number(self, value):
+    def set_number(self, value):
         browser.element("userNumber").type(value)
         return self
 
-    def date_birth(self, param):
+    def set_date_birth(self, param):
         date_of_birth = DatePicker(browser.element('#dateOfBirth'))
         date_of_birth.explicit_inpit(option=param)
         return self
 
-    def subjects(self):
-        pass
+    def set_subjects(self, subjects: list[str]):
+        for i in subjects:
+            TagsInput(browser.element("#subjectsInput")).add_by_click(i)
+        return self
 
-    def hobbies(self):
+    def set_hobbies(self):
         hobby = '[for="hobbies-checkbox-2"]'
         browser.element(hobby).click()
+        return self
 
-    def picture(self, value):
+    def set_picture(self, value):
         browser.element("#uploadPicture").send_keys(resource(value))
         return self
 
-    def address(self, value):
+    def set_address(self, value):
         browser.element("#currentAddress").type(value)
         return self
 
-    def states(self):
+    def set_states(self):
         state = Dropdown(browser.element("#state"))
         state.select(option="NCR")
+        return self
 
-    def cities(self):
+    def set_cities(self):
         city = Dropdown(browser.element("#city"))
         city.select(option="Gurgaon")
+        return self
 
-    def submit(self):
+    def set_submit(self):
         browser.element("#submit").click()
