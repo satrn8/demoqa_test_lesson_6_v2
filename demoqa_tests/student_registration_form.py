@@ -1,8 +1,8 @@
 from selene.support.shared import browser
-from demoqa_tests.model.controls.datepicker import DatePicker
-from demoqa_tests.model.controls.dropdown import Dropdown
-from demoqa_tests.model.controls.resource import resource
-from demoqa_tests.model.controls.tags_input import TagsInput
+from demoqa_tests.controls.datepicker import DatePicker
+from demoqa_tests.controls.dropdown import Dropdown
+from demoqa_tests.controls.resource import resource
+from demoqa_tests.controls.tags_input import TagsInput
 
 
 class StudentRegistrationForm:
@@ -10,7 +10,7 @@ class StudentRegistrationForm:
         browser.element("#firstName").type(value)
         return self
 
-    def sey_last_name(self, value):
+    def set_last_name(self, value):
         browser.element("#lastName").type(value)
         return self
 
@@ -18,7 +18,7 @@ class StudentRegistrationForm:
         browser.element("#userEmail").type(value)
         return self
 
-    def set_gender(self, value):
+    def set_gender(self):
         female = '[for="gender-radio-2"]'
         browser.element(female).click()
         return self
@@ -28,13 +28,13 @@ class StudentRegistrationForm:
         return self
 
     def set_date_birth(self, param):
-        date_of_birth = DatePicker(browser.element('#dateOfBirth'))
-        date_of_birth.explicit_inpit(option=param)
+        Date_Of_Birth = DatePicker(browser.element('#dateOfBirth'))
+        Date_Of_Birth.explicit_inpit(option=param)
         return self
 
     def set_subjects(self, subjects: list[str]):
         for i in subjects:
-            TagsInput(browser.element("#subjectsInput")).add_by_click(i)
+            TagsInput(browser.element("#subjectsInput")).add(i)
         return self
 
     def set_hobbies(self):
